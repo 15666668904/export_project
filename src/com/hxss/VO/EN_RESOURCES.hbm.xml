@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-23 13:34:00 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="com.hxss.VO.EN_RESOURCES" table="EN_RESOURCES">
+		<id name="RESOURCES_sid" type="java.lang.String">
+			<column name="RESOURCES_sid" />
+			<generator class="guid" />
+		</id>
+		<property name="xpmobs_sid" type="java.lang.String">
+			<column name="XPMOBS_SID" />
+		</property>
+		<property name="resources_code" type="java.lang.String">
+			<column name="RESOURCES_CODE" />
+		</property>
+		<property name="resources_name" type="java.lang.String">
+			<column name="RESOURCES_NAME" />
+		</property>
+		<property name="max_supply" type="java.lang.String">
+			<column name="MAX_SUPPLY" />
+		</property>
+		<property name="is_active" type="java.lang.String">
+			<column name="IS_ACTIVE" />
+		</property>
+		<property name="resource_calendar_sid" type="java.lang.String">
+			<column name="resource_calendar_sid" />
+		</property>
+		<property name="resource_calendar_code" type="java.lang.String">
+			<column name="resource_calendar_code" />
+		</property>
+		<property name="resource_calendar_name" type="java.lang.String">
+			<column name="resource_calendar_name" />
+		</property>
+			<property name="default_supply" type="java.lang.String">
+			<column name="DEFAULT_SUPPLY" />
+		</property>
+	</class>
+</hibernate-mapping>

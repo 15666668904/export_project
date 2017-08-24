@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-20 18:55:17 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hxss.VO.Plan_template" table="PLAN_TEMPLATE">
+        <id name="obj_sid" type="java.lang.String">
+            <column name="OBJ_SID" />
+            <generator class="guid" />
+        </id>
+        <property name="obj_code" type="java.lang.String">
+            <column name="OBJ_CODE" />
+        </property>
+        <property name="obj_name" type="java.lang.String">
+            <column name="OBJ_NAME" />
+        </property>
+        <property name="is_fk" type="java.lang.String">
+            <column name="IS_FK" />
+        </property>
+        <property name="task_type" type="java.lang.String">
+            <column name="TASK_TYPE" />
+        </property>
+        <property name="task_period" type="java.lang.String">
+            <column name="TASK_PERIOD" />
+        </property>
+        <property name="plan_version_sid" type="java.lang.String">
+            <column name="PLAN_VERSION_SID" />
+        </property>
+        <property name="ps" type="java.lang.String">
+            <column name="PS" />
+        </property>
+        <property name="pf" type="java.lang.String">
+            <column name="PF" />
+        </property>
+        <property name="obj_type" type="java.lang.String">
+            <column name="OBJ_TYPE" />
+        </property>
+        <property name="task_status" type="java.lang.String">
+            <column name="TASK_STATUS" />
+        </property>
+        <property name="fk_type" type="java.lang.String">
+            <column name="FK_TYPE" />
+        </property>
+        <property name="xpmobs_sid" type="java.lang.String">
+            <column name="XPMOBS_SID" />
+        </property>
+    </class>
+</hibernate-mapping>

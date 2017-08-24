@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-28 10:29:49 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hxss.VO.pro_obj" table="PRO_OBJ">
+        <id name="obj_sid" type="java.lang.String">
+            <column name="OBJ_SID" />
+            <generator class="guid" />
+        </id>
+        <property name="obj_code" type="java.lang.String">
+            <column name="OBJ_CODE" />
+        </property>
+        <property name="fk_type" type="java.lang.String">
+            <column name="FK_TYPE" />
+        </property>
+         <property name="remain_period" type="java.lang.String">
+            <column name="REMAIN_PERIOD" />
+        </property>
+        <property name="buffer_period" type="java.lang.String">
+            <column name="BUFFER_PERIOD" />
+        </property>
+        <property name="obj_name" type="java.lang.String">
+            <column name="OBJ_NAME" />
+        </property>
+        <property name="fk_manager" type="java.lang.String">
+            <column name="FK_MANAGER" />
+        </property>
+        <property name="task_manager" type="java.lang.String">
+            <column name="TASK_MANAGER" />
+        </property>
+         <property name="task_status" type="java.lang.String">
+            <column name="TASK_STATUS" />
+        </property>
+        <property name="plan_version_sid" type="java.lang.String">
+            <column name="PLAN_VERSION_SID" />
+        </property>
+        <property name="task_period" type="java.lang.String">
+            <column name="TASK_PERIOD" />
+        </property>
+        <property name="ps" type="java.lang.String">
+            <column name="PS" />
+        </property>
+        <property name="pf" type="java.lang.String">
+            <column name="PF" />
+        </property>
+        <property name="task_manager_sid" type="java.lang.String">
+            <column name="TASK_MANAGER_SID" />
+        </property>
+        <property name="fk_manager_sid" type="java.lang.String">
+            <column name="FK_MANAGER_SID" />
+        </property>
+        <property name="task_type" type="java.lang.String">
+            <column name="TASK_TYPE" />
+        </property>
+        <property name="obj_type" type="java.lang.String">
+            <column name="OBJ_TYPE" />
+        </property>
+        <property name="is_fk" type="java.lang.String">
+            <column name="IS_FK" />
+        </property>
+        <property name="ccpm_ls_date" type="java.lang.String">
+            <column name="CCPM_LS_DATE" />
+        </property>
+        <property name="ccpm_lf_date" type="java.lang.String">
+            <column name="CCPM_LF_DATE" />
+        </property>
+        <property name="ccpm_m_lf_date" type="java.lang.String">
+            <column name="CCPM_M_LF_DATE" />
+        </property>
+        <property name="ccpm_m_ls_date" type="java.lang.String">
+            <column name="CCPM_M_LS_DATE" />
+        </property>
+    </class>
+</hibernate-mapping>

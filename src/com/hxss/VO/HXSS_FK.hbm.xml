@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-28 13:29:19 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hxss.VO.HXSS_FK" table="HXSS_FK">
+        <id name="FK_sid" type="java.lang.String">
+            <column name="FK_SID" />
+            <generator class="guid" />
+        </id>
+        <property name="fk_code" type="java.lang.String">
+            <column name="FK_CODE" />
+        </property>
+        <property name="fk_name" type="java.lang.String">
+            <column name="FK_NAME" />
+        </property>
+        <property name="obj_sid" type="java.lang.String">
+            <column name="OBJ_SID" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>保存文件</title>
+</head>
+<body>
+	<center>欢迎使用Project导出系统,正在奋力生成中...</center>
+	<script language="javascript" type="text/javascript">
+		var address = location.href;
+		var num = address.indexOf("?");
+		var parameter = address.substring(num);
+		window.location.href = "project_export" + parameter;
+	</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-28 14:14:36 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="com.hxss.VO.hxss_task_ready" table="HXSS_TASK_READY">
+		<id name="task_ready_sid" type="java.lang.String">
+			<column name="TASK_READY_SID" />
+			<generator class="guid" />
+		</id>
+		<property name="obj_sid" type="java.lang.String">
+			<column name="OBJ_SID" />
+		</property>
+		<property name="task_ready_item" type="java.lang.String">
+			<column name="TASK_READY_ITEM" />
+		</property>
+	</class>
+</hibernate-mapping>

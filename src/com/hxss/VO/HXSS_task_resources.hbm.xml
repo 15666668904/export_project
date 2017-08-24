@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-23 13:52:57 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="com.hxss.VO.HXSS_task_resources" table="HXSS_TASK_RESOURCES">
+		<id name="task_resources_sid" type="java.lang.String">
+			<column name="TASK_RESOURCES_SID" />
+			<generator class="guid" />
+		</id>
+		<property name="obj_sid" type="java.lang.String">
+			<column name="obj_sid" />
+		</property>
+		<property name="resources_sid" type="java.lang.String">
+			<column name="RESOURCES_SID" />
+		</property>
+		<property name="xpmobs_sid" type="java.lang.String">
+			<column name="xpmobs_sid" />
+		</property>
+		<property name="req_quantity" type="java.lang.String">
+			<column name="req_quantity" />
+		</property>
+	</class>
+</hibernate-mapping>

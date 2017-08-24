@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-27 10:03:17 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hxss.VO.noworking_day" table="NOWORKING_DAY">
+        <id name="day_sid" type="java.lang.String">
+            <column name="DAY_SID" />
+            <generator class="guid" />
+        </id>
+        <property name="calendar_sid" type="java.lang.String">
+            <column name="CALENDAR_SID" />
+        </property>
+        <property name="nonworking_day" type="java.lang.String">
+            <column name="NONWORKING_DAY" />
+        </property>
+        <property name="flag" type="java.lang.String">
+            <column name="FLAG" />
+        </property>
+    </class>
+</hibernate-mapping>

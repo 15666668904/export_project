@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 配置连接数据库的基本信息 -->
+		<!-- org.hibernate.dialect.SQLServerDialect net.sourceforge.jtds.jdbc.Driver -->
+		<property name="hibernate.connection.provider_class">
+			org.hibernate.connection.C3P0ConnectionProvider
+		</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.timeout">50000</property>
+		<property name="hibernate.c3p0.max_statements">100</property>
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
+		<property name="dialect">org.hibernate.dialect.SQLServerDialect</property>
+		<property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="connection.url">jdbc:sqlserver://172.16.11.63:1433;databaseName=hxss_toc</property>
+		<property name="connection.username">sa</property>
+		<property name="connection.password">hs-info.com123456</property>
+		<!-- 配置hibernate的基本信息 -->
+		<!-- hibernate所使用的数据库方言 -->
+		<!-- 配置JDBC内置连接池 -->
+		<!--<property name="connection.pool_size">1</property> -->
+		<!-- 执行操作时是否在控制台打印SQL -->
+		<property name="show_sql">false</property>
+		<!-- 是否对SQL进行格式化 -->
+		<property name="format_sql">true</property>
+		<!-- 指定自动生成数据表的策略<property name="hbm2ddl.auto">update</property> -->
+		<!--<mapping resource="cn/waycool/hibernate/News.hbm.xml"/> -->
+		<mapping resource="com/hxss/VO/pro_obj.hbm.xml" />
+		<mapping resource="com/hxss/VO/EN_RESOURCES.hbm.xml" />
+		<mapping resource="com/hxss/VO/HXSS_task_resources.hbm.xml" />
+		<mapping resource="com/hxss/VO/EN_PLAN_CALENDAR.hbm.xml" />
+		<mapping resource="com/hxss/VO/noworking_day.hbm.xml" />
+		<mapping resource="com/hxss/VO/xpm_human.hbm.xml" />
+		<mapping resource="com/hxss/VO/HXSS_FK.hbm.xml" />
+		<mapping resource="com/hxss/VO/hxss_task_ready.hbm.xml" />
+		<mapping resource="com/hxss/VO/Plan_template.hbm.xml" />
+		<mapping resource="com/hxss/VO/HXSS_taskpred_CCPM.hbm.xml" />
+	</session-factory>
+
+</hibernate-configuration>

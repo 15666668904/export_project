@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-7-31 9:36:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="com.hxss.VO.HXSS_taskpred_CCPM" table="pro_taskpred">
+		<!-- view_hxss_taskpred_gantt带缓冲 -->
+		<id name="taskpred_sid" type="java.lang.String">
+			<column name="TASKPRED_SID" />
+			<generator class="guid" />
+		</id>
+		<property name="task_sid" type="java.lang.String">
+			<column name="TASK_SID" />
+		</property>
+		<property name="pred_task_sid" type="java.lang.String">
+			<column name="PRED_TASK_SID" />
+		</property>
+		<!-- <property name="plan_version_sid" type="java.lang.String"> <column 
+			name="PLAN_VERSION_SID" /> </property> -->
+	</class>
+</hibernate-mapping>

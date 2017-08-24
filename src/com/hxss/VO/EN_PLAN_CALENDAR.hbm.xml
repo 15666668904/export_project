@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-6-27 8:45:23 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<class name="com.hxss.VO.EN_PLAN_CALENDAR" table="VIEW_en_plan_calendar">
+		<id name="calendar_sid" type="java.lang.String">
+			<column name="CALENDAR_SID" />
+			<generator class="guid" />
+		</id>
+		<property name="xpmobs_sid" type="java.lang.String">
+			<column name="XPMOBS_SID" />
+		</property>
+		<property name="calendar_code" type="java.lang.String">
+			<column name="CALENDAR_CODE" />
+		</property>
+		<property name="calendar_name" type="java.lang.String">
+			<column name="CALENDAR_NAME" />
+		</property>
+		<property name="calendar_type" type="java.lang.String">
+			<column name="CALENDAR_TYPE" />
+		</property>
+		<property name="calendar_deafult_version" type="java.lang.String">
+			<column name="CALENDAR_DEAFULT_VERSION" />
+		</property>
+		<property name="day_1" type="java.lang.String">
+			<column name="DAY_1" />
+		</property>
+		<property name="day_2" type="java.lang.String">
+			<column name="DAY_2" />
+		</property>
+		<property name="day_3" type="java.lang.String">
+			<column name="DAY_3" />
+		</property>
+		<property name="day_4" type="java.lang.String">
+			<column name="DAY_4" />
+		</property>
+		<property name="day_5" type="java.lang.String">
+			<column name="DAY_5" />
+		</property>
+		<property name="day_6" type="java.lang.String">
+			<column name="DAY_6" />
+		</property>
+		<property name="day_7" type="java.lang.String">
+			<column name="DAY_7" />
+		</property>
+	</class>
+</hibernate-mapping>
