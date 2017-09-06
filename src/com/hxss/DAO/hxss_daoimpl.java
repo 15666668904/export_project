@@ -73,6 +73,7 @@ public class hxss_daoimpl implements hxss_dao{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<pro_obj> getpro_obj(String plan_version_sid) {
 		// TODO Auto-generated method stub
