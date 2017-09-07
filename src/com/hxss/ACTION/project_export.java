@@ -50,6 +50,11 @@ public class project_export extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
+		hxss_service hxss_service=new hxss_serviceimpl();
+		String file_path=hxss_service.getprojectfile(plan_version_sid, xpmobs_sid);
+		if ("error".equals(file_path)) {
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 }

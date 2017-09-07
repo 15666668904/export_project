@@ -201,8 +201,9 @@ public class hxss_daoimpl implements hxss_dao{
 		Session session=HibernateUtil.getSession();
 		try{
 			int resule=(int) session.
-					createSQLQuery("select datediff(day,min(ccpm_m_ls_date),"
-							+ "getdate()) from pro_obj where "
+					createSQLQuery("select case when min(ccpm_m_ls_date) is not null then"
+							+ " datediff(day,min(ccpm_m_ls_date),"
+							+ "getdate()) else 0 end from pro_obj where "
 							+ "plan_version_sid='"+plan_version_sid+"'").uniqueResult();
 			if(resule<0) {
 				resule=0;

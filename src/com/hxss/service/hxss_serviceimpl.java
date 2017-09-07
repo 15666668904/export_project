@@ -53,7 +53,9 @@ public class hxss_serviceimpl implements hxss_service{
 		try {
 			savecalendar(projectFile, xpmobs_sid);
 			save_resource(plan_version_sid, projectFile, xpmobs_sid);
-			savepro_obj(plan_version_sid, projectFile);
+			if (!savepro_obj(plan_version_sid, projectFile)) {
+				return "error";
+			} 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -191,7 +193,7 @@ public class hxss_serviceimpl implements hxss_service{
 	}
 
 	//录入任务
-	private static void savepro_obj(String plan_version_sid,ProjectFile projectFile) throws ParseException{
+	private static boolean savepro_obj(String plan_version_sid,ProjectFile projectFile) throws ParseException{
 		List<pro_obj>pro_objs=hxss_dao.getpro_obj(plan_version_sid);
 		int Time_difference=hxss_dao.getTime_difference(plan_version_sid);
 		for(int i=0;i<pro_objs.size();i++){
@@ -199,6 +201,9 @@ public class hxss_serviceimpl implements hxss_service{
 			Task task=projectFile.addTask();
 			java.util.Calendar start_date = java.util.Calendar.getInstance();
 			java.util.Calendar finish_date = java.util.Calendar.getInstance();
+			if(null==pro_obj.getCcpm_m_ls_date()||null==pro_obj.getCcpm_m_lf_date()) {
+				return false;
+			}
 			start_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
 					parse(pro_obj.getCcpm_m_ls_date().substring(0, 10)));
 			finish_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
@@ -236,6 +241,7 @@ public class hxss_serviceimpl implements hxss_service{
 		}
 		savetasklogic(pro_objs, projectFile,plan_version_sid);
 		savehxss_task_resources(pro_objs, projectFile);
+		return true;
 	}
 
 	private static void setfk_list(Task task,pro_obj pro_obj) {
