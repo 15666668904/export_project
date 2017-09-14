@@ -20,20 +20,23 @@ public class MPXutil {
 		String mpx_name=file_path.substring(28);
 		//如果文件存在，先删除  如果进程存在  先杀进程  避免因为文件占用删除失败
 		try {	
-			real_path=real_path+"powershell\\export_project.ps1";
+			real_path=real_path+"\\powershell\\export_project.ps1";
 			Process process = Runtime.getRuntime().exec("taskkill /f /t /im WINPROJ.EXE");
 			process.waitFor();
 			Thread.sleep(100);
-			File file=new File(mpx_file+mpx_name.substring(0,mpx_name.indexOf("."))+".mpp");
+			File file=new File(mpx_file+mpx_name.replace(".mpx", ".mpp"));
 			if(file.exists()){
 				file.delete();
 			}
+			System.out.println("powershell  "+real_path+" "+mpx_file+","+
+					mpx_name.substring(0, mpx_name.indexOf(".mpx")));
 			Process powershell=Runtime.getRuntime().exec("powershell  "+real_path+" "+mpx_file+","+
-					mpx_name.substring(0, mpx_name.indexOf(".")));
+					mpx_name.substring(0, mpx_name.indexOf(".mpx")));
 			String line=null;
 			BufferedReader  bufferedReader = new BufferedReader  
 					(new InputStreamReader(powershell.getInputStream()));  
 			while ((line = bufferedReader.readLine()) != null) { 
+				System.out.println(line);
 				if(line.equals("export_project_over")) {
 					return true;
 				}

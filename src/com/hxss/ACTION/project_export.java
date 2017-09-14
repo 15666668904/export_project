@@ -40,7 +40,7 @@ public class project_export extends ActionSupport{
 		hxss_service hxss_service=new hxss_serviceimpl();
 		String file_path=hxss_service.getprojectfile(plan_version_sid, xpmobs_sid);
 		MPXutil.convertMpxToMpp(file_path,ServletActionContext.getRequest().getRealPath(""));
-		File file=new File(file_path.substring(0,28)+file_path.substring(28).substring(0,file_path.substring(28).indexOf("."))+".mpp");
+		File file=new File(file_path.substring(0,28)+file_path.substring(28).replace(".mpx", ".mpp"));
 		try {
 			InputStream	inputStream = new FileInputStream(file);
 			//解决中文乱码
