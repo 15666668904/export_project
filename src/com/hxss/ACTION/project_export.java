@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.hxss.UTIL.MPXutil;
 import com.hxss.service.hxss_service;
 import com.hxss.service.hxss_serviceimpl;
@@ -13,6 +17,7 @@ public class project_export extends ActionSupport{
 	private String file_name;
 	private String plan_version_sid;
 	private String xpmobs_sid;
+	private String real_path;
 	public String getPlan_version_sid() {
 		return plan_version_sid;
 	}
@@ -34,7 +39,7 @@ public class project_export extends ActionSupport{
 	public InputStream getInputStream(){
 		hxss_service hxss_service=new hxss_serviceimpl();
 		String file_path=hxss_service.getprojectfile(plan_version_sid, xpmobs_sid);
-		MPXutil.convertMpxToMpp(file_path);
+		MPXutil.convertMpxToMpp(file_path,ServletActionContext.getRequest().getRealPath(""));
 		File file=new File(file_path.substring(0,28)+file_path.substring(28).substring(0,file_path.substring(28).indexOf("."))+".mpp");
 		try {
 			InputStream	inputStream = new FileInputStream(file);

@@ -31,8 +31,9 @@
 	<welcome-file-list>
 		<welcome-file>/index.HTML</welcome-file>
 	</welcome-file-list>
-
-
+	<listener>
+		<listener-class>quartz.QuartzSchedulerListener</listener-class>
+	</listener>
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/error.jsp</location>
