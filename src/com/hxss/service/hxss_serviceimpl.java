@@ -22,6 +22,7 @@ import com.hxss.VO.hxss_task_ready;
 import com.hxss.VO.noworking_day;
 import com.hxss.VO.pro_obj;
 
+import net.sf.mpxj.ConstraintType;
 import net.sf.mpxj.DateRange;
 import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
@@ -36,15 +37,19 @@ import net.sf.mpxj.Resource;
 import net.sf.mpxj.ResourceAssignment;
 import net.sf.mpxj.ResourceContainer;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
 import net.sf.mpxj.mpx.MPXWriter;
+import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar;
+import net.sf.mpxj.planner.PlannerWriter;
+import net.sf.mpxj.planner.schema.Constraint;
 import net.sf.mpxj.writer.ProjectWriter;
 
 public class hxss_serviceimpl implements hxss_service{
 	private static hxss_dao hxss_dao=new hxss_daoimpl();
 	@Override
-	public String getprojectfile(String plan_version_sid,String xpmobs_sid) {
+	public String getprojectfile(String plan_version_sid,String xpmobs_sid,String xmlflag) {
 		// TODO Auto-generated method stub
 		ProjectFile projectFile=new ProjectFile();
 		ProjectProperties projectProperties= projectFile.getProjectProperties();
@@ -53,24 +58,35 @@ public class hxss_serviceimpl implements hxss_service{
 		try {
 			savecalendar(projectFile, xpmobs_sid);
 			save_resource(plan_version_sid, projectFile, xpmobs_sid);
-			if (!savepro_obj(plan_version_sid, projectFile)) {
-				return "error";
-			} 
+			savepro_obj(plan_version_sid, projectFile);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String filepath=getconfig("export_project_path")+"/"+new SimpleDateFormat("yyyyMMdd").format(new Date());
 		createfilepath(filepath);
-		MPXWriter writer=new MPXWriter();
-		writer.setLocale(Locale.CHINESE);
-		try {
-			writer.write(projectFile, filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".mpx");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(xmlflag.equals("mpx")) {
+			MPXWriter writer=new MPXWriter();
+			writer.setLocale(Locale.CHINESE);
+			try {
+				writer.write(projectFile, filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".mpx");
+				return filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".mpx";	
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		return filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".mpx";
+		if(xmlflag.equals("xml")) {
+			try {
+				MSPDIWriter mspdiWriter=new MSPDIWriter();
+				mspdiWriter.write(projectFile, filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".xml");
+				return filepath+"/"+hxss_dao.getplan_version_title(plan_version_sid)+".xml";
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 	private static String getconfig(String key){
@@ -193,7 +209,7 @@ public class hxss_serviceimpl implements hxss_service{
 	}
 
 	//录入任务
-	private static boolean savepro_obj(String plan_version_sid,ProjectFile projectFile) throws ParseException{
+	private static String savepro_obj(String plan_version_sid,ProjectFile projectFile) throws ParseException{
 		List<pro_obj>pro_objs=hxss_dao.getpro_obj(plan_version_sid);
 		int Time_difference=hxss_dao.getTime_difference(plan_version_sid);
 		for(int i=0;i<pro_objs.size();i++){
@@ -202,14 +218,14 @@ public class hxss_serviceimpl implements hxss_service{
 			java.util.Calendar start_date = java.util.Calendar.getInstance();
 			java.util.Calendar finish_date = java.util.Calendar.getInstance();
 			if(null==pro_obj.getCcpm_m_ls_date()||null==pro_obj.getCcpm_m_lf_date()) {
-				return false;
+				return "请先进行缓冲处理";
 			}
 			start_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
 					parse(pro_obj.getCcpm_m_ls_date().substring(0, 10)));
 			finish_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
 					parse(pro_obj.getCcpm_m_lf_date().substring(0, 10)));
-			start_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
-			finish_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
+			//start_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
+			//finish_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
 			if(null!=pro_obj.getIs_fk()
 					&&null!=pro_obj.getTask_type()
 					&&pro_obj.getTask_type().equals("任务作业")
@@ -222,13 +238,16 @@ public class hxss_serviceimpl implements hxss_service{
 					&&pro_obj.getIs_fk().equals("齐套")
 					&&null!=pro_obj.getFk_manager()) {
 				task.setContact(pro_obj.getFk_manager());
+				task.setMilestone(true);
+				task.setConstraintType(ConstraintType.START_NO_EARLIER_THAN);
+				task.setConstraintDate(start_date.getTime());
 				setfk_list(task, pro_obj);
 			}
 			task.setID(i+1);
 			task.setName(pro_obj.getObj_name());
 			//task.setFinish(new SimpleDateFormat("yyyy-MM-dd").parse(pro_obj.getCcpm_m_lf_date().substring(0, 10)));
-			if(null==pro_obj.getRemain_period()){
-				pro_obj.setRemain_period("0");
+			if(null==pro_obj.getBuffer_period()){
+				pro_obj.setBuffer_period("0");
 			}
 
 			if(null!=pro_obj.getTask_type()&&pro_obj.getTask_type().equals("完成里程碑")){
@@ -236,12 +255,14 @@ public class hxss_serviceimpl implements hxss_service{
 			}
 			task.setActualStart(start_date.getTime());
 			task.setActualFinish(finish_date.getTime());
-			//task.setDuration(Duration.getInstance(Double.parseDouble(pro_obj.getRemain_period()), 
-			//		TimeUnit.DAYS));
+			task.setDuration(Duration.getInstance(Double.parseDouble(pro_obj.getBuffer_period()), 
+					TimeUnit.DAYS)); 
+			task.setType(TaskType.FIXED_DURATION);
+			task.setLevelingCanSplit(true);
 		}
 		savetasklogic(pro_objs, projectFile,plan_version_sid);
 		savehxss_task_resources(pro_objs, projectFile);
-		return true;
+		return "success";
 	}
 
 	private static void setfk_list(Task task,pro_obj pro_obj) {
@@ -342,6 +363,11 @@ public class hxss_serviceimpl implements hxss_service{
 
 	//资源录入
 	private static void save_resource(String plan_version_sid,ProjectFile projectFile,String xpmobs_sid) throws ParseException{
+		try {
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		List<EN_RESOURCES>resourcelist=hxss_dao.getresources(xpmobs_sid);
 		ResourceContainer resources=projectFile.getAllResources();
 		for(int i=0;i<resourcelist.size();i++){
@@ -353,7 +379,8 @@ public class hxss_serviceimpl implements hxss_service{
 			resource.setStandardRate(new Rate(0,TimeUnit.DAYS));
 			resource.setOvertimeRate(new Rate(0, TimeUnit.DAYS));
 			if(null!=en_RESOURCES.getResource_calendar_sid()&&
-					!en_RESOURCES.getResource_calendar_sid().equals("")) {
+					!en_RESOURCES.getResource_calendar_sid().equals("")
+					&&null!=hxss_dao.getresource_calendar(en_RESOURCES.getResource_calendar_sid())) {
 				ProjectCalendar projectCalendar= projectFile.addCalendar();
 				projectCalendar.setParent(getresources_calendar(projectFile, en_RESOURCES.getResource_calendar_sid()));
 				resource.setResourceCalendar(projectCalendar);
