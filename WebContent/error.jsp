@@ -8,7 +8,9 @@
 </head>
 <body>
 	<center>
-		<h2>请先进行缓冲处理!</h2>
+		<h2>
+			<%=request.getAttribute("errmsg")%>
+		</h2>
 	</center>
 </body>
 </html>

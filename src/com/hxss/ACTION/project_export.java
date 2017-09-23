@@ -58,6 +58,12 @@ public class project_export extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
+		hxss_service hxss_service=new hxss_serviceimpl();
+		String result=hxss_service.Data_validation(plan_version_sid);
+		if(!result.equals("success")) {
+			ServletActionContext.getRequest().setAttribute("errmsg",result);
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 }

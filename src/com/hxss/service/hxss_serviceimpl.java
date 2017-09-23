@@ -438,4 +438,25 @@ public class hxss_serviceimpl implements hxss_service{
 		String calendar_name= hxss_dao.getresource_calendar(calendar_sid).getCalendar_name();
 		return projectFile.getCalendarByName(calendar_name);
 	}
+
+	@Override
+	public String Data_validation(String plan_version_sid) {
+		// TODO Auto-generated method stub
+		String result="success";
+		List<pro_obj>pro_objs=hxss_dao.getpro_obj(plan_version_sid);
+		for(int i=0;i<pro_objs.size();i++) {
+			pro_obj pro_obj=pro_objs.get(i);
+			if(pro_obj.getBuffer_period()==null||pro_obj.getBuffer_period().equals("")
+					||pro_obj.getCcpm_m_ls_date()==null||pro_obj.getCcpm_m_ls_date().equals("")
+					||pro_obj.getCcpm_m_lf_date()==null||pro_obj.getCcpm_m_lf_date().equals("")) 
+			{
+				if(result.equals("success")) {
+					result="请先进行缓冲处理";
+				}else {
+					result=result+"<br/>清先进行缓冲处理";
+				}
+			}
+		}
+		return result;
+	}
 }
