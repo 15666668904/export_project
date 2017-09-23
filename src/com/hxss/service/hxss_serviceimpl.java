@@ -28,6 +28,7 @@ import net.sf.mpxj.Day;
 import net.sf.mpxj.Duration;
 import net.sf.mpxj.ProjectCalendar;
 import net.sf.mpxj.ProjectCalendarException;
+import net.sf.mpxj.ProjectCalendarHours;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.ProjectProperties;
 import net.sf.mpxj.Rate;
@@ -39,6 +40,7 @@ import net.sf.mpxj.ResourceContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
 import net.sf.mpxj.mspdi.schema.Project.Calendars.Calendar;
@@ -54,7 +56,8 @@ public class hxss_serviceimpl implements hxss_service{
 		ProjectFile projectFile=new ProjectFile();
 		ProjectProperties projectProperties= projectFile.getProjectProperties();
 		projectProperties.setProjectTitle(hxss_dao.getplan_version_title(plan_version_sid));
-		projectProperties.setAuthor("zhenlong.shan");
+		projectProperties.setAuthor("zhenlong.shan's Project_export");
+		projectProperties.setCompany("杭萧钢构股份有限公司");
 		try {
 			savecalendar(projectFile, xpmobs_sid);
 			save_resource(plan_version_sid, projectFile, xpmobs_sid);
@@ -110,7 +113,7 @@ public class hxss_serviceimpl implements hxss_service{
 		//项目日历录入
 		{
 			List<EN_PLAN_CALENDAR>calendars= hxss_dao.getEN_PLAN_CALENDAR(xpmobs_sid, "1");
-			ProjectCalendar projectCalendar=projectFile.addDefaultBaseCalendar();
+			ProjectCalendar projectCalendar=projectFile.addCalendar();
 			if (calendars.size()==1){
 				EN_PLAN_CALENDAR en_PLAN_CALENDAR=calendars.get(0);
 				projectCalendar.setWorkingDay(Day.FRIDAY,Boolean.parseBoolean(en_PLAN_CALENDAR.getDay_5()));
@@ -152,6 +155,27 @@ public class hxss_serviceimpl implements hxss_service{
 				projectCalendar.setWorkingDay(Day.WEDNESDAY,true);
 				projectCalendar.setName("项目标准日历(7天工作制)");
 			}
+			ProjectCalendarHours h1=projectCalendar.addCalendarHours(Day.FRIDAY);
+			h1.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h1.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h2=projectCalendar.addCalendarHours(Day.MONDAY);
+			h2.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h2.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h3=projectCalendar.addCalendarHours(Day.SATURDAY);
+			h3.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h3.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h4=projectCalendar.addCalendarHours(Day.SUNDAY);
+			h4.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h4.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h5=projectCalendar.addCalendarHours(Day.THURSDAY);
+			h5.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h5.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h6=projectCalendar.addCalendarHours(Day.TUESDAY);
+			h6.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h6.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+			ProjectCalendarHours h7=projectCalendar.addCalendarHours(Day.WEDNESDAY);
+			h7.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+			h7.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
 			projectFile.setDefaultCalendar(projectCalendar);
 		}
 		//非项目日历录入
@@ -178,6 +202,27 @@ public class hxss_serviceimpl implements hxss_service{
 				projectCalendar.setWorkingDay(Day.TUESDAY,Boolean.parseBoolean(en_PLAN_CALENDAR.getDay_2()));
 				projectCalendar.setWorkingDay(Day.WEDNESDAY,Boolean.parseBoolean(en_PLAN_CALENDAR.getDay_3()));
 				projectCalendar.setName(en_PLAN_CALENDAR.getCalendar_name());
+				ProjectCalendarHours h1=projectCalendar.addCalendarHours(Day.FRIDAY);
+				h1.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h1.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h2=projectCalendar.addCalendarHours(Day.MONDAY);
+				h2.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h2.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h3=projectCalendar.addCalendarHours(Day.SATURDAY);
+				h3.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h3.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h4=projectCalendar.addCalendarHours(Day.SUNDAY);
+				h4.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h4.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h5=projectCalendar.addCalendarHours(Day.THURSDAY);
+				h5.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h5.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h6=projectCalendar.addCalendarHours(Day.TUESDAY);
+				h6.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h6.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
+				ProjectCalendarHours h7=projectCalendar.addCalendarHours(Day.WEDNESDAY);
+				h7.addRange(projectCalendar.DEFAULT_WORKING_MORNING);
+				h7.addRange(projectCalendar.DEFAULT_WORKING_AFTERNOON);
 				//例外日期录入
 				List<noworking_day>noworking_days=hxss_dao.getnoworking_day(en_PLAN_CALENDAR.getCalendar_sid());
 				for(int j=0;j<noworking_days.size();j++){
@@ -212,20 +257,22 @@ public class hxss_serviceimpl implements hxss_service{
 	private static String savepro_obj(String plan_version_sid,ProjectFile projectFile) throws ParseException{
 		List<pro_obj>pro_objs=hxss_dao.getpro_obj(plan_version_sid);
 		int Time_difference=hxss_dao.getTime_difference(plan_version_sid);
+		Task task0=projectFile.addTask();
+		task0.setUniqueID(0);
+		task0.setID(0);
+		task0.setName(hxss_dao.getplan_version_title(plan_version_sid));
 		for(int i=0;i<pro_objs.size();i++){
 			pro_obj pro_obj=pro_objs.get(i);
-			Task task=projectFile.addTask();
+			Task task=task0.addTask();
 			java.util.Calendar start_date = java.util.Calendar.getInstance();
 			java.util.Calendar finish_date = java.util.Calendar.getInstance();
 			if(null==pro_obj.getCcpm_m_ls_date()||null==pro_obj.getCcpm_m_lf_date()) {
 				return "请先进行缓冲处理";
 			}
 			start_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
-					parse(pro_obj.getCcpm_m_ls_date().substring(0, 10)));
+					parse(pro_obj.getCcpm_m_ls_date()));
 			finish_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
-					parse(pro_obj.getCcpm_m_lf_date().substring(0, 10)));
-			//start_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
-			//finish_date.add(java.util.Calendar.DAY_OF_YEAR, Time_difference);
+					parse(pro_obj.getCcpm_m_lf_date()));
 			if(null!=pro_obj.getIs_fk()
 					&&null!=pro_obj.getTask_type()
 					&&pro_obj.getTask_type().equals("任务作业")
@@ -245,20 +292,18 @@ public class hxss_serviceimpl implements hxss_service{
 			}
 			task.setID(i+1);
 			task.setName(pro_obj.getObj_name());
-			//task.setFinish(new SimpleDateFormat("yyyy-MM-dd").parse(pro_obj.getCcpm_m_lf_date().substring(0, 10)));
 			if(null==pro_obj.getBuffer_period()){
 				pro_obj.setBuffer_period("0");
 			}
 
 			if(null!=pro_obj.getTask_type()&&pro_obj.getTask_type().equals("完成里程碑")){
 				task.setMilestone(true);
-			}
-			task.setActualStart(start_date.getTime());
-			task.setActualFinish(finish_date.getTime());
+			} 
+			task.setStart(start_date.getTime());
+			task.setFinish(finish_date.getTime());
 			task.setDuration(Duration.getInstance(Double.parseDouble(pro_obj.getBuffer_period()), 
-					TimeUnit.DAYS)); 
+					TimeUnit.DAYS));
 			task.setType(TaskType.FIXED_DURATION);
-			task.setLevelingCanSplit(true);
 		}
 		savetasklogic(pro_objs, projectFile,plan_version_sid);
 		savehxss_task_resources(pro_objs, projectFile);

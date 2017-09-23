@@ -40,29 +40,18 @@ public class project_export extends ActionSupport{
 	}
 	public InputStream getInputStream(){
 		hxss_service hxss_service=new hxss_serviceimpl();
-		String file_path=hxss_service.getprojectfile(plan_version_sid, xpmobs_sid,"mpx");
 		try {
-			MPXutil.convertMpxToMpp(file_path,ServletActionContext.getRequest().getRealPath(""));
-			File file=new File(file_path.substring(0,28)+file_path.substring(28).replace(".mpx", ".mpp"));
+			String file_path=hxss_service.getprojectfile(plan_version_sid, xpmobs_sid,"xml");
+			//MPXutil.convertMpxToMpp(file_path,ServletActionContext.getRequest().getRealPath(""));
+			File file=new File(file_path);
 			//如果转mpp失败则导出xml
-			if(!file.exists()) {
-				file=new File(hxss_service.getprojectfile(plan_version_sid, xpmobs_sid, "xml"));
-			}
 			InputStream	inputStream = new FileInputStream(file);
-			//解决中文乱码
+			//解决中文乱码 
 			file_name=new String(file.getName().getBytes("gbk"),"8859_1");
 			return inputStream;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			HttpServletResponse response=ServletActionContext.getResponse();
-			response.setCharacterEncoding("utf-8");
-			try {
-				response.getWriter().write("导出失败");
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			return null;
 		}
 	}
