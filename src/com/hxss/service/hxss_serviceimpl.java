@@ -40,6 +40,7 @@ import net.sf.mpxj.ResourceContainer;
 import net.sf.mpxj.Task;
 import net.sf.mpxj.TaskType;
 import net.sf.mpxj.TimeUnit;
+import net.sf.mpxj.WorkContour;
 import net.sf.mpxj.common.SplitTaskFactory;
 import net.sf.mpxj.mpx.MPXWriter;
 import net.sf.mpxj.mspdi.MSPDIWriter;
@@ -266,9 +267,6 @@ public class hxss_serviceimpl implements hxss_service{
 			Task task=task0.addTask();
 			java.util.Calendar start_date = java.util.Calendar.getInstance();
 			java.util.Calendar finish_date = java.util.Calendar.getInstance();
-			if(null==pro_obj.getCcpm_m_ls_date()||null==pro_obj.getCcpm_m_lf_date()) {
-				return "请先进行缓冲处理";
-			}
 			start_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
 					parse(pro_obj.getCcpm_m_ls_date()));
 			finish_date.setTime(new SimpleDateFormat("yyyy-MM-dd").
@@ -353,6 +351,9 @@ public class hxss_serviceimpl implements hxss_service{
 					ResourceAssignment resourceAssignment= task.addResourceAssignment(getresource(
 							task_resources.getResources_sid(), projectFile));
 					try {
+						resourceAssignment.setWorkContour(WorkContour.FLAT);
+						resourceAssignment.setWork(Duration.getInstance(task.getDuration().getDuration()*8, TimeUnit.HOURS));
+						resourceAssignment.setRemainingWork(Duration.getInstance(task.getDuration().getDuration()*8, TimeUnit.HOURS));
 						resourceAssignment.setUnits(NumberFormat.getInstance().parse(
 								String.valueOf(Integer.parseInt(task_resources.getReq_quantity())*100)));
 					} catch (NumberFormatException e) {
@@ -455,6 +456,7 @@ public class hxss_serviceimpl implements hxss_service{
 				}else {
 					result=result+"<br/>清先进行缓冲处理";
 				}
+				return result;
 			}
 		}
 		return result;
